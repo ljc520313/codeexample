@@ -1,0 +1,8 @@
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.buaa.student.service.IStudent">
+	<select id="selectStudent" parameterType="Student" resultType="Student">
+		select sid id,sname name from student
+	</select>
+</mapper>

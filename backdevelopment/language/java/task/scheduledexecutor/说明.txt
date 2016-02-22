@@ -1,0 +1,10 @@
+(1).鉴于Timer的上述缺陷，Java 5 推出了基于线程池设计的 ScheduledExecutor。其设计思想是，每一个被调度的任务都会由线程池中一个线程去执行，因此任务是并发执行的，相互之间不会受到干扰。需要注意的是，只有当任务的执行时间到来时，ScheduedExecutor 才会真正启动一个线程，其余时间 ScheduledExecutor 都是在轮询任务的状态
+      ScheduledExecutorService 中两种最常用的调度方法 ScheduleAtFixedRate和 ScheduleWithFixedDelay。ScheduleAtFixedRate 每次执行时间为上一次任务开始起向后推一个时间间隔，即每次执行时间为 :initialDelay, initialDelay+period, initialDelay+2*period, …；ScheduleWithFixedDelay 每次执行时间为上一次任务结束起向后推一个时间间隔，即每次执行时间为：initialDelay, initialDelay+executeTime+delay, initialDelay+2*executeTime+2*delay。由此可见，ScheduleAtFixedRate 是基于固定时间间隔进行任务调度，ScheduleWithFixedDelay 取决于每次任务执行的时间长短，是基于不固定时间间隔进行任务调度
+(2).Timer 和 ScheduledExecutor 都仅能提供基于开始时间与重复间隔的任务调度，不能胜任更加复杂的调度需求。比如，设置每星期四的 17:20:00 执行任务。该功能使用 Timer 和 ScheduledExecutor 都不能直接实现，但我们可以借助 Calendar 间接实现该功能
+    下面先解释一下calendar的一些设计思想。Calendar有以下几种唯一标识一个日期的组合方式：
+    YEAR + MONTH + DAY_OF_MONTH 
+    YEAR + MONTH + WEEK_OF_MONTH + DAY_OF_WEEK 
+    YEAR + MONTH + DAY_OF_WEEK_IN_MONTH + DAY_OF_WEEK 
+    YEAR + DAY_OF_YEAR 
+    YEAR + DAY_OF_WEEK + WEEK_OF_YEAR
+    上述组合分别加上 HOUR_OF_DAY + MINUTE + SECOND 即为一个完整的时间标识。

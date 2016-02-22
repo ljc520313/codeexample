@@ -1,0 +1,3 @@
+timer是最简单的一种实现任务调度的方式。使用Timer实现任务调度的核心类是Timer和TimerTask。其中Timer负责设定TimerTask的起始与间隔执行时间。使用者只需要创建一个TimerTask的继承类，实现自己的run方法，然后将其丢给Timer去执行即可。
+Timer的设计核心是一个TaskList和一个TaskThread。Timer 将接收到的任务丢到自己的 TaskList中，TaskList 按照 Task 的最初执行时间进行排序。TimerThread 在创建 Timer 时会启动成为一个守护线程。这个线程会轮询所有任务，找到一个最近要执行的任务，然后休眠，当到达最近要执行任务的开始时间点，TimerThread 被唤醒并执行该任务。之后 TimerThread 更新最近一个要执行的任务，继续休眠。
+Timer的优点在于简单易用，但由于所有任务都是由同一个线程来调度，因此所有任务都是串行执行的，同一时间只能有一个任务在执行，前一个任务的延迟或异常都将会影响到之后的任务。
